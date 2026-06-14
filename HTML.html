@@ -1,0 +1,55 @@
+HTML
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>學生分數統計網頁</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; line-height: 1.6; }
+        #log { margin-top: 20px; border-top: 1px solid #ccc; padding-top: 10px; }
+    </style>
+</head>
+<body>
+
+    <h2>學生分數統計系統</h2>
+    <input type="number" id="scoreInput" placeholder="請輸入分數">
+    <button onclick="addScore()">輸入分數</button>
+    <button onclick="endSession()">結束程式</button>
+
+    <div id="log"></div>
+
+    <script>
+        let totalScore = 0;
+        let count = 0;
+        const log = document.getElementById('log');
+
+        function addScore() {
+            const input = document.getElementById('scoreInput');
+            const score = parseInt(input.value);
+
+            if (isNaN(score) || score < 0 || score > 100) {
+                log.innerHTML += `<p style="color:red;">無效分數 (請輸入 0-100)</p>`;
+            } else {
+                totalScore += score;
+                count++;
+                let isPass = score >= 60;
+                let comment = score >= 100 ? "真棒!繼續保持!" : 
+                              score >= 80 ? "不錯!繼續努力!" : 
+                              score >= 60 ? "還可以,繼續加油" : "繼續加油吧";
+                
+                log.innerHTML += `<p>分數: ${score} | 及格: ${isPass} | ${comment}</p>`;
+            }
+            input.value = ''; // 清空輸入框
+        }
+
+        function endSession() {
+            if (count > 0) {
+                let avg = (totalScore / count).toFixed(1);
+                log.innerHTML += `<hr><strong>統計結果: 共${count}位，平均分數: ${avg}</strong>`;
+            } else {
+                log.innerHTML += `<p>沒有輸入任何分數</p>`;
+            }
+        }
+    </script>
+</body>
+</html>
