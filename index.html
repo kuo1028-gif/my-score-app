@@ -10,7 +10,6 @@
             padding: 0;
             line-height: 1.6; 
             
-          
             background-image: url("722363778_122316019400030515_5448503377688142176_n.jpg"); 
             background-size: cover;                  
             background-position: center;             
@@ -20,7 +19,6 @@
             color: #000000;
         }
 
-      
         .container {
             width: 50%;               /* 嚴格佔用螢幕左側的二分之一 */
             min-height: 100vh;        /* 高度撐滿整個螢幕 */
@@ -34,7 +32,6 @@
             border-right: 1px solid rgba(0, 0, 0, 0.1); 
         }
         
-       
         input[type="number"], button {
             padding: 8px 12px;
             font-size: 16px;
@@ -64,6 +61,18 @@
             border-top: 1px solid rgba(0, 0, 0, 0.2); 
             padding-top: 10px; 
         }
+
+        /* 🆕 新增：CSS 漸層淡出動畫 */
+        .fade-out-text {
+            /* 前面 2 秒完全顯示，最後 1 秒（第2到第3秒）執行 fadeOut 動畫 */
+            animation: fadeOut 1s ease forwards;
+            animation-delay: 2s; 
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; height: 0; margin: 0; padding: 0; overflow: hidden; }
+        }
     </style>
 </head>
 <body>
@@ -82,12 +91,25 @@
         let count = 0;
         const log = document.getElementById('log');
 
+        // 🆕 新增：共用的淡出移除函式
+        function setupFadeOut(elementId) {
+            setTimeout(function() {
+                const element = document.getElementById(elementId);
+                if (element) {
+                    element.remove(); // 動畫結束後完全從網頁移除，不留空隙
+                }
+            }, 3000); // 3秒後移除（與 CSS 的 2秒延遲 + 1秒動畫同步）
+        }
+
         function addScore() {
             const input = document.getElementById('scoreInput');
             const score = parseInt(input.value);
 
             if (isNaN(score) || score < 0 || score > 100) {
-                log.innerHTML += `<p style="color:#ff4d4d; font-weight:bold;">亂輸入 抓到(1-100)</p>`;
+                // 產生唯一 ID 並套用淡出 Class
+                const errorId = 'error_' + Date.now();
+                log.innerHTML += `<p id="${errorId}" class="fade-out-text" style="color:#ff4d4d; font-weight:bold;">亂輸入 抓到(1-100)</p>`;
+                setupFadeOut(errorId);
             } else {
                 totalScore += score;
                 count++;
@@ -107,7 +129,10 @@
                 let avg = (totalScore / count).toFixed(1);
                 log.innerHTML += `<br><hr><strong> 統計結果: 共 ${count} 位，平均分數: ${avg} 分</strong>`;
             } else {
-                log.innerHTML += `<p>沒有輸入任何分數</p>`;
+                // 產生唯一 ID 並套用淡出 Class
+                const emptyId = 'empty_' + Date.now();
+                log.innerHTML += `<p id="${emptyId}" class="fade-out-text">沒有輸入任何分數</p>`;
+                setupFadeOut(emptyId);
             }
         }
     </script>
