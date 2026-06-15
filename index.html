@@ -10,25 +10,22 @@
             padding: 40px 20px; 
             line-height: 1.6; 
             
-            /* 👇 核心修正：直接使用您上傳到 GitHub 的圖片檔名 👇 */
             background-image: url("722363778_122316019400030515_5448503377688142176_n.jpg"); 
-            background-size: cover;                  /* 讓圖片完整鋪滿整個螢幕 */
-            background-position: center;             /* 讓圖片置中 */
-            background-repeat: no-repeat;            /* 防止圖片重複平鋪 */
-            background-attachment: fixed;        /* 固定背景，滾動網頁時背景不動 */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
         }
             
         
-        
-        /* 讓輸入框與按鈕帶有半透明的白色背景，看得更清楚 */
         input[type="number"], button {
             padding: 6px 12px;
             font-size: 16px;
             border-radius: 4px;
             border: 1px solid #ccc;
             background-color: rgba(255, 255, 255, 0.9);
-            color: #000000; /* 輸入框內的文字保持黑色 */
-            text-shadow: none; /* 取消輸入框內文字的陰影 */
+            color: #000000;
+            text-shadow: none;
         }
         
         button {
@@ -67,7 +64,7 @@
             const score = parseInt(input.value);
 
             if (isNaN(score) || score < 0 || score > 100) {
-                log.innerHTML += `<p style="color:#ff4d4d; font-weight:bold;">亂輸入 抓到</p>`;
+                log.innerHTML += `<p style="color:#ff4d4d; font-weight:bold;">亂輸入 抓到(1-100)</p>`;
             } else {
                 totalScore += score;
                 count++;
