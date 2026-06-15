@@ -4,46 +4,33 @@
     <meta charset="UTF-8">
     <title>分數統計網頁</title>
     <style>
-        /* 1. Body 基礎設定（移除了背景，只保留字體與間距） */
         body { 
             font-family: sans-serif; 
             margin: 0;
             padding: 0;
             line-height: 1.6; 
-            color: #000000; /* 保持全黑字 */
+            color: #000000;
         }
-
-        /* 2. 右半邊背景層（修正了原本包在 body 裡面的錯誤） */
         .bg-right {
-            position: fixed;            /* 固定在螢幕上 */
+            position: fixed;            
             top: 0;
-            right: 0;                   /* 靠右對齊 */
-            width: 50%;                 /* 寬度佔右半邊 50% */
-            height: 100vh;              /* 高度佔滿螢幕 */
-            z-index: -1;                /* 讓背景圖退到文字後面 */
-            
-            /* 滿版背景圖設定 */
+            right: 0;                   
+            width: 50%;                 
+            height: 100vh;              
+            z-index: -1;                
             background-image: url("bg.png"); 
             background-size: cover;                  
             background-position: center;             
             background-repeat: no-repeat;            
         }
-
-        /* 3. 左側二分之一的半透明容器 */
         .container {
-            width: 50%;               /* 嚴格佔用螢幕左側的二分之一 */
-            min-height: 100vh;        /* 高度撐滿整個螢幕 */
-            box-sizing: border-box;   /* 讓 padding 不會撐開寬度 */
-            padding: 40px;            /* 留出舒適的內邊距 */
-            
-            /* 使用稍微白一點的半透明底色 (75%) */
-            background-color: rgba(255, 255, 255, 0.75); 
-            
-            /* 讓右側有一條淡淡的分隔線 */
+            width: 50%;               
+            min-height: 100vh;        
+            box-sizing: border-box;   
+            padding: 40px;            
+            background-color: rgba(255, 255, 255, 0.85); 
             border-right: 1px solid rgba(0, 0, 0, 0.1); 
         }
-        
-        /* 讓輸入框與按鈕在半透明容器內更好看 */
         input[type="number"], button {
             padding: 8px 12px;
             font-size: 16px;
@@ -52,22 +39,18 @@
             background-color: #ffffff;
             color: #000000; 
         }
-        
         input[type="number"] {
-            width: 180px; /* 固定輸入框寬度 */
+            width: 180px;
         }
-        
         button {
             cursor: pointer;
             margin-left: 5px;
             font-weight: bold;
             background-color: #f5f5f5;
         }
-
         button:hover {
             background-color: #e0e0e0;
         }
-
         #log { 
             margin-top: 20px; 
             border-top: 1px solid rgba(0, 0, 0, 0.2); 
@@ -77,26 +60,23 @@
 </head>
 <body>
 
-    <!-- 👇 補上這一行：獨立的右半邊背景區塊 👇 -->
     <div class="bg-right"></div>
 
-    <!-- 左半邊的統計內容 -->
     <div class="container">
         <h2>分數統計系統</h2>
         <input type="number" id="scoreInput" placeholder="請輸入分數">
         <button onclick="addScore()">輸入分數</button>
         <button onclick="endSession()">計算平均</button>
-
         <div id="log"></div>
     </div>
 
     <script>
         let totalScore = 0;
         let count = 0;
-        const log = document.getElementById('log');
 
         function addScore() {
             const input = document.getElementById('scoreInput');
+            const log = document.getElementById('log');
             const score = parseInt(input.value);
 
             if (isNaN(score) || score < 0 || score > 100) {
@@ -116,6 +96,7 @@
         }
 
         function endSession() {
+            const log = document.getElementById('log');
             if (count > 0) {
                 let avg = (totalScore / count).toFixed(1);
                 log.innerHTML += `<br><hr><strong> 統計結果: 共 ${count} 位，平均分數: ${avg} 分</strong>`;
@@ -123,3 +104,6 @@
                 log.innerHTML += `<p>沒有輸入任何分數</p>`;
             }
         }
+    </script>
+</body>
+</html>
