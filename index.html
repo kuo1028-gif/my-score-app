@@ -1,20 +1,60 @@
+
 HTML
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
-    <title>學生分數統計網頁</title>
+    <title>分數統計網頁</title>
     <style>
-        body { font-family: sans-serif; padding: 20px; line-height: 1.6; }
-        #log { margin-top: 20px; border-top: 1px solid #ccc; padding-top: 10px; }
+        body { 
+            font-family: sans-serif; 
+            padding: 40px 20px; 
+            line-height: 1.6; 
+            
+            /* 👇 核心修正：直接使用您上傳到 GitHub 的圖片檔名 👇 */
+            background-image: url("722363778_122316019400030515_5448503377688142176_n.jpg"); 
+            background-size: cover;                  /* 讓圖片完整鋪滿整個螢幕 */
+            background-position: center;             /* 讓圖片置中 */
+            background-repeat: no-repeat;            /* 防止圖片重複平鋪 */
+            background-attachment: fixed}        /* 固定背景，滾動網頁時背景不動 */
+            
+            
+        
+        
+        /* 讓輸入框與按鈕帶有半透明的白色背景，看得更清楚 */
+        input[type="number"], button {
+            padding: 6px 12px;
+            font-size: 16px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            background-color: rgba(255, 255, 255, 0.9);
+            color: #000000; /* 輸入框內的文字保持黑色 */
+            text-shadow: none; /* 取消輸入框內文字的陰影 */
+        }
+        
+        button {
+            cursor: pointer;
+            margin-left: 5px;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #e0e0e0;
+        }
+
+        #log { 
+            margin-top: 20px; 
+            border-top: 1px solid rgba(255, 255, 255, 0.5); 
+            padding-top: 10px; 
+        }
     </style>
 </head>
 <body>
 
-    <h2>學生分數統計系統</h2>
+    <h2>分數統計系統</h2>
     <input type="number" id="scoreInput" placeholder="請輸入分數">
     <button onclick="addScore()">輸入分數</button>
-    <button onclick="endSession()">結束程式</button>
+    <button onclick="endSession()">計算平均</button>
 
     <div id="log"></div>
 
@@ -28,11 +68,12 @@ HTML
             const score = parseInt(input.value);
 
             if (isNaN(score) || score < 0 || score > 100) {
-                log.innerHTML += `<p style="color:red;">無效分數 (請輸入 0-100)</p>`;
+                log.innerHTML += `<p style="color:#ff4d4d; font-weight:bold;">亂輸入 抓到</p>`;
             } else {
                 totalScore += score;
                 count++;
-                let isPass = score >= 60;
+                
+                let isPass = score >= 60 ? "是" : "否";
                 let comment = score >= 100 ? "真棒!繼續保持!" : 
                               score >= 80 ? "不錯!繼續努力!" : 
                               score >= 60 ? "還可以,繼續加油" : "繼續加油吧";
@@ -45,7 +86,7 @@ HTML
         function endSession() {
             if (count > 0) {
                 let avg = (totalScore / count).toFixed(1);
-                log.innerHTML += `<hr><strong>統計結果: 共${count}位，平均分數: ${avg}</strong>`;
+                log.innerHTML += `<br><hr><strong> 統計結果: 共 ${count} 位，平均分數: ${avg} 分</strong>`;
             } else {
                 log.innerHTML += `<p>沒有輸入任何分數</p>`;
             }
