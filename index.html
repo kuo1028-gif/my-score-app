@@ -4,43 +4,46 @@
     <meta charset="UTF-8">
     <title>分數統計網頁</title>
     <style>
-        /* 1. 設定整體的身體結構 */
+        /* 1. Body 基礎設定（移除了背景，只保留字體與間距） */
         body { 
             font-family: sans-serif; 
             margin: 0;
             padding: 0;
             line-height: 1.6; 
-            background-color: #ffffff; /* 確保左側是乾淨的純白底色 */
-            
-            /* 保留黑字需求：保持全黑字，完全不加陰影 */
-            color: #000000;
+            color: #000000; /* 保持全黑字 */
         }
 
-        /* 2. 右側 50% 的圖片容器 */
-        .right-side-image {
-            position: fixed;         /* 固定在螢幕上，不隨捲軸滾動 */
+        /* 2. 右半邊背景層（修正了原本包在 body 裡面的錯誤） */
+        .bg-right {
+            position: fixed;            /* 固定在螢幕上 */
             top: 0;
-            right: 0;                /* 固定在右側 */
-            width: 50%;               /* 嚴格佔用螢幕的二分之一 */
-            height: 100vh;           /* 高度撐滿整個螢幕 */
-            z-index: -1;              /* 讓圖片處於最底層 */
+            right: 0;                   /* 靠右對齊 */
+            width: 50%;                 /* 寬度佔右半邊 50% */
+            height: 100vh;              /* 高度佔滿螢幕 */
+            z-index: -1;                /* 讓背景圖退到文字後面 */
             
-            /* 👇 終極簡化：對應改名後的 bg.png 👇 */
-            background-image: url("bg.png"); 
-            background-size: cover;                  /* 讓圖片完整鋪滿這 50% 區塊 */
-            background-position: center center;      /* 置中對齊，完美呈現吉卜力房間 */
+            /* 滿版背景圖設定 */
+            background-image: url("bg.jpg"); 
+            background-size: cover;                  
+            background-position: center;             
             background-repeat: no-repeat;            
         }
 
-        /* 3. 左側 50% 的內容容器 */
-        .content-container {
-            width: 50%;               /* 左側也只佔用二分之一，與圖片並排 */
-            min-height: 100vh;        /* 確保高度撐滿 */
+        /* 3. 左側二分之一的半透明容器 */
+        .container {
+            width: 50%;               /* 嚴格佔用螢幕左側的二分之一 */
+            min-height: 100vh;        /* 高度撐滿整個螢幕 */
             box-sizing: border-box;   /* 讓 padding 不會撐開寬度 */
-            padding: 60px 40px;       /* 留出舒適的邊距 */
+            padding: 40px;            /* 留出舒適的內邊距 */
+            
+            /* 使用稍微白一點的半透明底色 (75%) */
+            background-color: rgba(255, 255, 255, 0.75); 
+            
+            /* 讓右側有一條淡淡的分隔線 */
+            border-right: 1px solid rgba(0, 0, 0, 0.1); 
         }
         
-        /* 讓輸入框與按鈕在左側區塊內更好看 */
+        /* 讓輸入框與按鈕在半透明容器內更好看 */
         input[type="number"], button {
             padding: 8px 12px;
             font-size: 16px;
@@ -67,16 +70,18 @@
 
         #log { 
             margin-top: 20px; 
-            border-top: 1px solid rgba(0, 0, 0, 0.1); /* 保持原本黑色的細分隔線 */
+            border-top: 1px solid rgba(0, 0, 0, 0.2); 
             padding-top: 10px; 
         }
     </style>
 </head>
 <body>
 
-    <div class="right-side-image"></div>
+    <!-- 👇 補上這一行：獨立的右半邊背景區塊 👇 -->
+    <div class="bg-right"></div>
 
-    <div class="content-container">
+    <!-- 左半邊的統計內容 -->
+    <div class="container">
         <h2>分數統計系統</h2>
         <input type="number" id="scoreInput" placeholder="請輸入分數">
         <button onclick="addScore()">輸入分數</button>
@@ -107,7 +112,7 @@
                 
                 log.innerHTML += `<p>分數: ${score} | 及格: ${isPass} | ${comment}</p>`;
             }
-            input.value = ''; // 清空輸入框
+            input.value = ''; 
         }
 
         function endSession() {
@@ -118,6 +123,3 @@
                 log.innerHTML += `<p>沒有輸入任何分數</p>`;
             }
         }
-    </script>
-</body>
-</html>
